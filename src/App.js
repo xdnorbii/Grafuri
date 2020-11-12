@@ -100,23 +100,11 @@ function App() {
   }
 
   const predecessors_to_A = (data) => {
-    const tr = Lp_to_all(data);
-    setArcsState(data);
-    A_to_graph(tr.adiacenta);
-    setAdjacencyState(tr.adiacenta);
-    setIncidenceState(tr.incidenta);
-    setPredecessorsState(tr.predecesori);
-    setSuccessorsState(tr.succesori);
+    
   }
 
   const succesors_to_A = (data) => {
-    const tr = Ls_to_all(data,adjacencyState.length);
-    setArcsState(data);
-    A_to_graph(tr.adiacenta);
-    setAdjacencyState(tr.adiacenta);
-    setIncidenceState(tr.incidenta);
-    setPredecessorsState(tr.predecesori);
-    setSuccessorsState(tr.succesori);
+ 
   }
 
   console.log(graphState);
