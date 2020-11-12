@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import Graph from './Graph';
 import './App.css';
 import AdjacencyMatrix from './AdjacencyMatrix';
-import { A_to_all, B_to_all, U_to_all, Ls_to_all, Lp_to_all } from './graphFunctions';
+import { A_to_all, B_to_all, U_to_all } from './graphFunctions';
 import IncidenceMatrix from './IncidenceMatrix';
 import Arcs from './Arcs';
 import Predecessors from './Predecessors';
