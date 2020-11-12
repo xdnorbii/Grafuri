@@ -3,9 +3,13 @@ import React, { useState } from 'react';
 const AdjacencyMatrix = (props) => {
 
     const handlerChange = (text, rowIndex, colIndex, e)=>{
-        let temp = props.state;
-        temp[rowIndex][colIndex] = parseInt(text.target.value);
-        props.onChange(temp);
+        if(text.target.value !== '')
+        {
+            let temp = props.state;
+            temp[rowIndex][colIndex] = parseInt(text.target.value);
+            props.onChange(temp);
+        }
+       
     }
 
     const renderAdjacencyMatrix = () => {
