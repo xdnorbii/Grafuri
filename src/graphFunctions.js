@@ -133,26 +133,30 @@ const U_to_Lp = (n, m, a, b) => {
 const U_to_Ls = (n, m, a, b) => {
     let poz = []
     let succ = []
-    let aux = 0
-    let aux2 = 0
-    let nod = 0;
-    if (m > 0) {
-        poz[aux2++] = 1;
+    let aux=0
+    let aux2=0
+    let nod=0;
+    if(m>0){
+        poz[aux2++]=1;
     }
-    for (let i = 0; i < m; i++) {
-        if (a[i] != nod) {
+    for(let i=0;i<m;i++){
+        if(a[i] != nod){
             nod = a[i];
-            for (let j = 0; j < m; j++) {
-                if (a[j] == nod) {
+            for(let j=0;j<m;j++){
+                if(a[j] == nod){
                     succ[aux++] = b[j];
-                    aux2++;
+
                 }
             }
-            poz[aux2++] = aux;
+
+            poz[aux2++] = aux+1;
         }
 
-    }
-    poz[aux2] = aux;
+     }
+
+     for(let i= aux2;i<=n;i++){
+        poz[i] = aux+1;
+     }
 
     let rez;
     rez = {
@@ -178,10 +182,10 @@ const U_to_B = (n, m, a, b) => {
     let rez = []
     for (let i = 0; i < n; i++) {
         let line = []
-        for (let j = 0; j < m; j++) {
+        for (let j = 0; j < n; j++) {
             if (inc[i][j] != -1)
                 line.push(inc[i][j]);
-            else line.push(inc[i][j]);
+            else line.push(inc[j][i]);
         }
         rez.push(line);
 
@@ -214,7 +218,7 @@ const U_to_A=(n, m, a, b)=>{
 
 
 export const U_to_all=(arce,n)=>{
-    let m=arce.to.length
+    let m= arce.to.length
     let a = arce.from
     let b = arce.to;
 
@@ -225,6 +229,112 @@ export const U_to_all=(arce,n)=>{
         predecesori: U_to_Lp(n, m, a, b),
     }
 }
+
+
+
+const Lp_to_U = (n,m,poz,pred)=>{
+    let nod=1
+    let arc1=[]
+    let arc2=[]
+    let contor=1;
+    if(pred[1]==1){
+        nod++;
+    }
+    for(let i=1;i<m;i++){
+       for(let j=poz[i];j<poz[i+1];j++){
+            arc1[contor] = pred[j];
+            arc2[contor] = nod;
+            contor++;
+        }
+        nod++;
+    }
+
+    let rez = {
+        from:arc1,
+        to:arc2
+    }
+
+    return rez;
+}
+
+const Lp_to_B=( n, m, poz, pred)=>{
+    let nod=1; 
+    let b = Array.from({
+        // generate array of length m
+        length: 15
+        // inside map function generate array of size n
+        // and fill it with `0`
+    }, () => new Array(15).fill(0));
+    if(pred[1]==1){
+        nod++;
+    }
+    for(let i=1;i<m;i++){
+       for(let j=poz[i];j<poz[i+1];j++){
+            b[pred[j]][j] = 1;
+            b[nod][j] = -1;
+        }
+        nod++;
+    }
+    let rez = []
+     for(let i=1;i<=n;i++){
+         let line = []
+        for(let j=1;j<=m;j++){
+            line.push(b[i][j]);
+        }
+        rez.push(line);
+     }
+
+     return rez;
+}
+
+const Lp_to_A = (n, m,  poz,  pred)=>{
+    let nod=1
+    let ad = Array.from({
+        // generate array of length m
+        length: 15
+        // inside map function generate array of size n
+        // and fill it with `0`
+    }, () => new Array(15).fill(0));
+    if(pred[1]==1){
+        nod++;
+    }
+    for(let i=1;i<m;i++){
+       for(let j=poz[i];j<poz[i+1];j++){
+            ad[pred[j]][nod] = 1;
+        }
+        nod++;
+    }
+
+    let rez = []
+
+     for(let i=1;i<=n;i++){
+         let line = []
+        for(let j=1;j<=n;j++){
+            line.push(ad[i][j]);
+        }
+        rez.push(line);
+     }
+
+     return rez;
+}
+
+export const Lp_to_all = (lp) => {
+    let n = lp.pozitia.length
+    let m = lp.predecesori.length
+    let poz = lp.pozitia
+    let pred = lp.predecesori;
+
+    return {
+        adiacenta: Lp_to_A(n, m, poz, pred),
+        arce: Lp_to_U(n, m, poz, pred),
+        succesori: {
+            pozitia:[],
+            succesori: []
+        },
+        incidenta: Lp_to_B(n, m, poz, pred),
+    }      
+}
+
 
 const B_to_Lp=(n, m, a)=>{
     let aux = 0;
